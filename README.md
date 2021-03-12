@@ -1,1 +1,1 @@
-# ruby-cs-projects
+# Computer Science Projects in Ruby for The Odin Project

@@ -14,8 +14,15 @@ class Knight
   end
 end
 
+class Chessboard
+  def self.board
+    [[""] * 8] * 8
+  end
+end
+
 class Tree
   def initialize
     @moves = Knight.moves
+    @root = build_tree(@moves)
   end
 end

@@ -16,7 +16,7 @@ end
 
 class Chessboard
   def self.board
-    [[""] * 8] * 8
+    [[''] * 8] * 8
   end
 end
 

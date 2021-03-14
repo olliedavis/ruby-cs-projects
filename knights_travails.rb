@@ -1,10 +1,10 @@
 class Node
-  attr_accessor :data, :left, :right
+  attr_accessor :position, :parent, :children
 
-  def initialize(data)
-    @data = data
-    @left = nil
-    @right = nil
+  def initialize(position, parent = nil, children = nil)
+    @position = position
+    @children = children
+    @parent = parent
   end
 end
 

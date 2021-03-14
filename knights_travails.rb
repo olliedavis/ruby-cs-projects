@@ -19,28 +19,30 @@ class Knight
     valid_moves(possible_moves)
   end
 
-  def valid_moves(possible_moves)
+  def self.valid_moves(possible_moves)
     valid_moves = []
     possible_moves.each do |move|
       valid_moves << move if Chessboard.allowed?(move)
     end
+    valid_moves
   end
-  valid_moves
 end
 
 class Chessboard
-  def board
-    @board_squares= []
+  attr_reader :board_squares
+
+  @board_squares = []
+  def self.board
     (0..7).each do |i|
       (0..7).each do |x|
-        board_squares << [i, x] # creates board array with sub arrays for each position
+        @board_squares << [i, x] # creates board array with sub arrays for each position
       end
     end
+    @board_squares
   end
 
   def self.allowed?(move)
-    board # creates the board
-    return true unless @board_squares.any?(move) # returns true if the move is within the board.
+    return true if @board_squares.any?(move) # returns true if the move is within the board.
 
     false # else returns false
   end
@@ -50,6 +52,7 @@ class Path
   def initialize(start_position, end_position)
     @start_position = start_position
     @end_position = end_position
+    Chessboard.board # creates the chessboard
     find_path
   end
 
@@ -61,7 +64,7 @@ class Path
     until @queue.empty?
       get_children(current) # gets all the valid children and sets them as the current nodes children
       check_children(current) # checks the children of the current node to see if matches the end position
-      current = queue.shift # sets a child to the current node and repeats
+      current = @queue.shift # sets a child to the current node and repeats
     end
   end
 
@@ -69,6 +72,7 @@ class Path
     children = []
     children_nodes = []
     children << Knight.possible_moves(current.position) # inputs all the possible moves into the children array
+    children.flatten!(1)
     children.each { |child| children_nodes << Node.new(child, current) } # creates a new node for each child and set the current node as the parent
     current.children = children_nodes # sets the created nodes as the parents children
   end
@@ -76,19 +80,21 @@ class Path
   def check_children(current)
     current.children.each do |child|
       if child.position == @end_position
-        found(child)
+        puts child.parent.position
+        puts @end_position
+        found(current)
       else
         @queue << child
       end
     end
   end
 
-  def found(child)
+  def found(current)
     move_count = 0
-    final_path = [child.position]
-    until child.parent.nil? # cascades through childs ancestors
+    final_path = [current.position]
+    until current.parent.nil? # cascades through childs ancestors
       move_count += 1 # increments the move counter
-      final_path << child.parent.position # puts each parents's position in the final path array
+      final_path << current.parent # puts each parents's position in the final path array
     end
     finished(move_count, final_path)
   end
@@ -97,5 +103,8 @@ class Path
     puts "The Knight can move from #{@start_position} to #{@end_position} in #{move_count} moves!"
     puts 'This is the path it took:'
     puts final_path
+    exit
   end
 end
+
+Path.new([3, 3], [4, 2])

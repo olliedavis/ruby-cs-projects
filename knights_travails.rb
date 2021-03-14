@@ -73,15 +73,14 @@ class Path
     children_nodes = []
     children << Knight.possible_moves(current.position) # inputs all the possible moves into the children array
     children.flatten!(1)
-    children.each { |child| children_nodes << Node.new(child, current) } # creates a new node for each child and set the current node as the parent
+    # creates a new node for each child and set the current node as the parent
+    children.each { |child| children_nodes << Node.new(child, current) }
     current.children = children_nodes # sets the created nodes as the parents children
   end
 
   def check_children(current)
     current.children.each do |child|
       if child.position == @end_position
-        puts child.parent.position
-        puts @end_position
         found(current)
       else
         @queue << child
@@ -90,21 +89,34 @@ class Path
   end
 
   def found(current)
-    move_count = 0
+    move_count = 1
     final_path = [current.position]
-    until current.parent.nil? # cascades through childs ancestors
+    until current.parent.nil? # iteratates through childs ancestors
       move_count += 1 # increments the move counter
-      final_path << current.parent # puts each parents's position in the final path array
+      final_path.unshift(current.parent.position) # puts each parents's position in the final path array
+      current = current.parent
     end
+    final_path << @end_position
     finished(move_count, final_path)
   end
 
   def finished(move_count, final_path)
+    puts ''
     puts "The Knight can move from #{@start_position} to #{@end_position} in #{move_count} moves!"
     puts 'This is the path it took:'
-    puts final_path
+    final_path_display(final_path)
+    puts ''
     exit
+  end
+
+  def final_path_display(final_path)
+    array = []
+    final_path.each do |pos|
+      array.push("[#{pos[0]}, #{pos[1]}]")
+      array.push([' --> ']) if pos != @end_position
+    end
+    puts array.join
   end
 end
 
-Path.new([3, 3], [4, 2])
+Path.new([0, 0], [7, 7])

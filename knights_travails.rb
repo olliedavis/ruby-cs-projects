@@ -50,7 +50,6 @@ class Path
   def initialize(start_position, end_position)
     @start_position = start_position
     @end_position = end_position
-    @finish = false
     find_path
   end
 
@@ -59,18 +58,28 @@ class Path
     current = Node.new(@start_position)
     @queue << current
 
-    until @queue.empty? || @finish
-      get_children(current)
-      check_children(current) # TODO
-      current = queue.shift
+    until @queue.empty?
+      get_children(current) # gets all the valid children and sets them as the current nodes children
+      check_children(current) # checks the children of the current node to see if matches the end position
+      current = queue.shift # sets a child to the current node and repeats
     end
   end
 
   def get_children(current)
     children = []
     children_nodes = []
-    children << Knight.valid_moves(current.position) # inputs all the valid moves into the children array
+    children << Knight.possible_moves(current.position) # inputs all the possible moves into the children array
     children.each { |child| children_nodes << Node.new(child, current) } # creates a new node for each child and set the current node as the parent
     current.children = children_nodes # sets the created nodes as the parents children
+  end
+
+  def check_children(current)
+    current.children.each do |child|
+      if child == @end_position
+        found(child, parent) # to do
+      else
+        @queue << child
+      end
+    end
   end
 end

@@ -55,14 +55,19 @@ class Path
   def initialize(start_position, end_position)
     @start_position = start_position
     @end_position = end_position
+    @finish = false
     find_path
   end
 
   def find_path
     @queue = []
     current = @start_position
-    queue << current
-  end
+    @queue << current
 
+    until @queue.empty? || @finish
+      get_children(current) # TODO
+      check_children(current) # TODO
+      current = queue.shift
+    end
   end
 end

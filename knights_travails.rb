@@ -9,21 +9,32 @@ class Node
 end
 
 class Knight
-  def initialize(current_position = [0,0])
+  def initialize(current_position = [0, 0])
     @current_position = current_position
   end
 
-  def valid_moves
+  def possible_moves
     x = @current_position[0]
     y = @current_position[1]
     possible_moves = [
       [x - 2, y - 1], [x - 1, y - 2], [x - 2, y + 1], [x - 1, y + 2],
       [x + 1, y - 2], [x + 2, y - 1], [x + 1, y + 2], [x + 2, y + 1]
     ]
+    valid_moves(possible_moves)
   end
+
+  def valid_moves(possible_moves)
+    valid_moves = []
+    possible_moves.each do |move|
+      valid_moves << move if Chessboard.allowed?(move)
+    end
+  end
+  valid_moves
 end
 
 class Chessboard
+  attr_reader :board_squares
+
   def board
     @board_squares= []
     (0..7).each do |i|

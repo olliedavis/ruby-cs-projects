@@ -92,4 +92,10 @@ class Path
     end
     finished(move_count, final_path) # TODO
   end
+
+  def finished(move_count, final_path)
+    puts "The Knight can move from #{@start_position} to #{@end_position} in #{move_count} moves!"
+    puts 'This is the path it took:'
+    puts final_path
+  end
 end

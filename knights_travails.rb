@@ -9,13 +9,10 @@ class Node
 end
 
 class Knight
-  def initialize(current_position = [0, 0])
-    @current_position = current_position
-  end
 
-  def possible_moves
-    x = @current_position[0]
-    y = @current_position[1]
+  def self.possible_moves(current_position)
+    x = current_position[0]
+    y = current_position[1]
     possible_moves = [
       [x - 2, y - 1], [x - 1, y - 2], [x - 2, y + 1], [x - 1, y + 2],
       [x + 1, y - 2], [x + 2, y - 1], [x + 1, y + 2], [x + 2, y + 1]
@@ -65,9 +62,17 @@ class Path
     @queue << current
 
     until @queue.empty? || @finish
-      get_children(current) # TODO
+      get_children(current)
       check_children(current) # TODO
       current = queue.shift
     end
+  end
+
+  def get_children(current)
+    children = []
+    children_nodes = []
+    children << Knight.valid_moves(current)
+    children.each { |child| children_nodes << Node.new(child, current) }
+    children_nodes
   end
 end

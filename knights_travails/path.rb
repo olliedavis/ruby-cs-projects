@@ -1,53 +1,6 @@
-class Node
-  attr_accessor :position, :parent, :children
-
-  def initialize(position, parent = nil, children = nil)
-    @position = position
-    @parent = parent
-    @children = children
-  end
-end
-
-class Knight
-  def self.possible_moves(current_position)
-    x = current_position[0]
-    y = current_position[1]
-    possible_moves = [
-      [x - 2, y - 1], [x - 1, y - 2], [x - 2, y + 1], [x - 1, y + 2],
-      [x + 1, y - 2], [x + 2, y - 1], [x + 1, y + 2], [x + 2, y + 1]
-    ]
-    valid_moves(possible_moves)
-  end
-
-  def self.valid_moves(possible_moves)
-    valid_moves = []
-    possible_moves.each do |move|
-      valid_moves << move if Chessboard.allowed?(move)
-    end
-    valid_moves
-  end
-end
-
-class Chessboard
-  attr_reader :board_squares
-
-  @board_squares = []
-  def self.board
-    (0..7).each do |i|
-      (0..7).each do |x|
-        @board_squares << [i, x] # creates board array with sub arrays for each position
-      end
-    end
-    @board_squares
-  end
-
-  def self.allowed?(move)
-    return true if @board_squares.any?(move) # returns true if the move is within the board.
-
-    false # else returns false
-  end
-end
-
+require_relative 'knight'
+require_relative 'node'
+require_relative 'board'
 class Path
   def initialize(start_position, end_position)
     @start_position = start_position
@@ -118,5 +71,3 @@ class Path
     puts array.join
   end
 end
-
-Path.new([0, 0], [7, 7])

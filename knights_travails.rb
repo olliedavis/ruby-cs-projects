@@ -75,11 +75,21 @@ class Path
 
   def check_children(current)
     current.children.each do |child|
-      if child == @end_position
-        found(child, parent) # to do
+      if child.position == @end_position
+        found(child)
       else
         @queue << child
       end
     end
+  end
+
+  def found(child)
+    move_count = 0
+    final_path = [child.position]
+    until child.parent.nil?
+      move_count += 1
+      final_path << child.parent.position
+    end
+    finished(move_count, final_path) # TODO
   end
 end

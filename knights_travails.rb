@@ -3,13 +3,12 @@ class Node
 
   def initialize(position, parent = nil, children = nil)
     @position = position
-    @children = children
     @parent = parent
+    @children = children
   end
 end
 
 class Knight
-
   def self.possible_moves(current_position)
     x = current_position[0]
     y = current_position[1]
@@ -30,21 +29,20 @@ class Knight
 end
 
 class Chessboard
-  attr_reader :board_squares
-
   def board
     @board_squares= []
     (0..7).each do |i|
       (0..7).each do |x|
-        board_squares << [i, x]
+        board_squares << [i, x] # creates board array with sub arrays for each position
       end
     end
   end
 
   def self.allowed?(move)
-    return true unless @board_squares.any?(move)
+    board # creates the board
+    return true unless @board_squares.any?(move) # returns true if the move is within the board.
 
-    false
+    false # else returns false
   end
 end
 

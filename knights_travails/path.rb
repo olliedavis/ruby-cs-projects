@@ -5,7 +5,7 @@ class Path
   def initialize(start_position, end_position)
     @start_position = start_position
     @end_position = end_position
-    Chessboard.board # creates the chessboard
+    Chessboard.board # creates the chessboard here once to avoid it constantly being created
     find_path
   end
 
@@ -36,20 +36,20 @@ class Path
       if child.position == @end_position
         found(current)
       else
-        @queue << child
+        @queue << child # adds the child to the queue so it can be checked
       end
     end
   end
 
   def found(current)
-    move_count = 1
-    final_path = [current.position]
+    move_count = 1 # set to 1 to include the initial step
+    final_path = [current.position] # adds the current position to the final path array
     until current.parent.nil? # iteratates through childs ancestors
       move_count += 1 # increments the move counter
-      final_path.unshift(current.parent.position) # puts each parents's position in the final path array
-      current = current.parent
+      final_path.unshift(current.parent.position) # puts each parents's position in the final path array in front of the current
+      current = current.parent # moves the head to the current's parent to repeat the loop on
     end
-    final_path << @end_position
+    final_path << @end_position # add the end position to the end of the array
     finished(move_count, final_path)
   end
 

@@ -14,6 +14,6 @@ class Chessboard
   def self.allowed?(move)
     return true if @board_squares.any?(move) # returns true if the move is within the board.
 
-    false # else returns false
+    false
   end
 end

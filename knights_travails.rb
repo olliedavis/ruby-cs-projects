@@ -45,13 +45,24 @@ class Chessboard
   end
 
   def self.allowed?(move)
-    return true unless @board_squares != move
+    return true unless @board_squares.any?(move)
 
     false
   end
 end
 
 class Path
-  def initialize
+  def initialize(start_position, end_position)
+    @start_position = start_position
+    @end_position = end_position
+    find_path
+  end
+
+  def find_path
+    @queue = []
+    current = @start_position
+    queue << current
+  end
+
   end
 end

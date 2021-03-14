@@ -51,9 +51,7 @@ class Chessboard
   end
 end
 
-class Tree
+class Path
   def initialize
-    @moves = Knight.moves
-    @root = build_tree(@moves)
   end
 end

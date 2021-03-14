@@ -86,11 +86,11 @@ class Path
   def found(child)
     move_count = 0
     final_path = [child.position]
-    until child.parent.nil?
-      move_count += 1
-      final_path << child.parent.position
+    until child.parent.nil? # cascades through childs ancestors
+      move_count += 1 # increments the move counter
+      final_path << child.parent.position # puts each parents's position in the final path array
     end
-    finished(move_count, final_path) # TODO
+    finished(move_count, final_path)
   end
 
   def finished(move_count, final_path)
